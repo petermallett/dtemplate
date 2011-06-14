@@ -1,0 +1,297 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>DTemplate</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+</head>
+<body bgcolor="#FFFFFF">
+<p>Contents</p>
+<table width="90%" border="0" cellspacing="0" cellpadding="3">
+  <tr bgcolor="#EEEEEE">
+    <td><a href="#copyright">Copyright &amp; License </a><br />
+      <a href="#overview">Overview</a><br />
+      <a href="#basics">The Basics</a><br />
+      <a href="#methods">Main Method Reference</a><br />
+      <a href="#other_methods">Other Methods</a><br />
+      <a href="#dynamic">Dynamic Templates</a><br />
+      <a href="#nested_blocks">Nested  Blocks</a><br />
+    <a href="#version_history">Version History</a></td>
+  </tr>
+</table>
+<p><a name="copyright" id="copyright"></a>Copyright &amp; License </p>
+<table width="90%" border="0" cellspacing="0" cellpadding="3">
+  <tr bgcolor="#EEEEEE">
+    <td><p>DTemplate 1.2 Copyright (c) 2004, Peter Mallett<br />
+        All rights reserved.</p>
+      <p>Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:</p>
+      <ul>
+        <li> Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.</li>
+        <li> Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.</li>
+        <li> Neither the name of the software nor the names of its contributors may be used to endorse or promote products derived from this software without specific prior written permission.</li>
+      </ul>
+      <p>THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS &quot;AS IS&quot; AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.</p></td>
+  </tr>
+</table>
+<p><a name="overview" id="overview"></a>Overview</p>
+<table width="90%" border="0" cellspacing="0" cellpadding="3">
+  <tr bgcolor="#EEEEEE">
+    <td><p>DTemplate is a template engine written in PHP. It allows you to separate your programming logic from your HTML output. If you've ever tried to print a complex page with dynamic data in a table using only PHP...</p>
+    <p>DTemplate allows you to use complex formatting without either embedding PHP code in multiple places in your HTML or hand printing HTML from your PHP code. </p></td>
+  </tr>
+</table>
+<p><a name="basics" id="basics"></a>The Basics</p>
+<table width="90%" border="0" cellspacing="0" cellpadding="3">
+  <tr bgcolor="#EEEEEE">
+    <td><p><b>Template</b></p>
+      <p>Where DTemplate is concerned, a template is any text file with fields in it. When DTemplate processes the template file, the fields are replaced with the values you specify for them in your code.</p>
+      <p>In DTemplate code the fields are marked with curly braces (e.g. {FIELD}). So a simple example template file would contain just the following text:</p>
+      <p>Hello {NAME}. How are you?</p>
+      <p><b>Reasons for using templates</b></p>
+      <p>Embedding HTML code in your PHP scripts is messy at best and just a nightmare at its worst. On the other hand, embedding PHP code in your HTML files can make using a WYSIWYG editor a hassle. Using a template to separate your layout from your code can do a few things:</p>
+      <ul>
+        <li>Reduces clutter in your code by removing the HTML making it easier to debug and/or modify.</li>
+        <li>Allows you to change the look of a page without editing the PHP script that runs it. Using templates, designers can update a page's look or layout without being concerned with the code that generates the final page.</li>
+      </ul>
+      <p><b>Using DTemplate</b></p>
+      <p>The first step when using any class in PHP is to include the source file.</p>
+      <blockquote>
+        <p><i>include('class.DTemplate.php');</i></p>
+      </blockquote>
+      <p>Once you have included the class file in your script, using DTemplate is fairly simple. There are only five steps involved in order to render a page using a template.</p>
+      <ol>
+        <li>create the template object</li>
+        <li>define your template</li>
+        <li>assign values to your fields</li>
+        <li>process the template</li>
+        <li>print the output or fetch it for later use</li>
+      </ol>
+      <p>Since this is all you need, these five methods are listed first in the Main Method Reference section.</p></td>
+  </tr>
+</table>
+<p><a name="methods" id="methods"></a>Main Method Reference</p>
+<table width="90%" border="0" cellspacing="0" cellpadding="3">
+  <tr bgcolor="#EEEEEE">
+    <td><p><b>DTemplate</b></p>
+      <p>Constructor</p>
+      <p>This method is called when you create a new DTemplate object.</p>
+      <p>DTemplate ([string templatedir])</p>
+      <p>The path to your template files can be set at this time using <i>templatedir</i>. The template directory defaults to the current working directory if <em>templatedir</em> is omitted.</p>
+      <p>Examples:</p>
+      <blockquote>
+        <p><i>$tpl = new DTemplate('path/to/template/files');</i></p>
+        <p><i>$tpl = new DTemplate( );</i></p>
+      </blockquote>
+      <p>&nbsp;</p>
+      <p><b>define_templates</b></p>
+      <p>Used to specify a template file to use and give it a handle to reference it by.</p>
+      <p>define_templates (array(string handle =&gt; string filename))</p>
+      <p>After calling define_templates you will not need to use the file name again. The <em>handle</em> will be used to refer to the template.</p>
+      <p>Example:</p>
+      <blockquote>
+        <p><i>$tpl = new DTemplate('path/to/template/files');<br />
+          $tpl-&gt;define_templates(array(<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'body' =&gt; 'main.tpl',<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'footer' =&gt; 'footer.tpl'<br />
+        ));</i></p>
+      </blockquote>
+      <p>Note: define_templates does not actually load the template files, so it is faster and more convenient to define all templates in one call to define_templates.</p>
+      <p>&nbsp;</p>
+      <p><b>assign</b></p>
+      <p>Used to assign values to the fields in the template.</p>
+      <p>assign (array(field =&gt; value))<br />
+      assign (string field, string value)</p>
+      <p>The <i>field</i> parameter should match the field name in the template file. So, if your template file contains the text {NAME} the assign call could be either of the following:</p>
+      <blockquote>
+        <p><i>assign ('NAME', 'value_for_name_field');</i></p>
+      </blockquote>
+      <blockquote>
+        <p><i>assign (array('NAME' =&gt; 'value_for_name_field'));</i></p>
+      </blockquote>
+      <p>Notes: Field names are case sensitive; Each instance of DTemplate can have only one copy of a given field.</p>
+      <p>Example:</p>
+      <blockquote>
+        <p><i>$tpl-&gt;assign (array(<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'FIELD1' =&gt; 'text1',<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'FIELD2' =&gt; 'text2'<br />
+        ));</i></p>
+        <p><i>$tpl-&gt;assign ('FIELD1', 'newfield1text');</i></p>
+      </blockquote>
+      <p>In this example the value for FIELD1 is 'newfield1text' since that call to assign overwrites the same field assignment in the first call. This is something to be aware of if you are using multiple template files in one script that have fields with the same names.</p>
+      <p>&nbsp;</p>
+      <p><b>process</b></p>
+      <p>Loads the template file if it hasn't already been loaded. Then, replaces all assigned fields with their values and stores the result  using the specified handle.</p>
+      <p>process ( string handle [, string output_handle] )</p>
+      <p><em>handle</em> is the name that was assigned to the template in the call to define_templates.</p>
+      <p><em>output_handle</em> is an optional name that can be given to the output. Using this, you can process a template into separate output variables and then print them individually. If <em>output_handle</em> is omitted, DTemplate will continue to use<em> handle</em> to reference the output.</p>
+      <p>Examples:</p>
+      <blockquote>
+        <p><i>$tpl-&gt;process('body');</i></p>
+        <p><i>$tpl-&gt;process('body', 'body_output01');</i></p>
+      </blockquote>
+      <p>Note: process also inserts the output for any sub-blocks within the  template. Hence, sub-blocks should always be processed before their parent blocks (see Dynamic Templates).</p>
+      <p>&nbsp;</p>
+      <p><b>DPrint</b></p>
+      <p>Prints the contents of the specified output handle.</p>
+      <p>DPrint (string output_handle)</p>
+      <p>Examples:</p>
+      <blockquote>
+        <p><i>$tpl-&gt;DPrint('body');</i></p>
+        <p><i>$tpl-&gt;DPrint('body_output01');</i></p>
+      </blockquote>
+      <p>see also: fetch (other methods)</p></td>
+  </tr>
+</table>
+<p><a name="other_methods" id="other_methods"></a>Other Methods</p>
+<table width="90%" border="0" cellspacing="0" cellpadding="3">
+  <tr bgcolor="#EEEEEE">
+    <td><p><b>set_template_dir</b></p>
+      <p>Set or change the directory path that template files will be loaded from.</p>
+      <p>set_template_dir (string template_dir)</p>
+      <p>&nbsp;</p>
+      <p><b>define_template</b></p>
+      <p>Alternative to define_templates. The only difference is define_template is used to specify one template at a time as opposed to an array of templates as in define_templates.</p>
+      <p>define_template (string handle, string filename)</p>
+      <p>As with define_templates, after calling define_templates you will not need to use the file name again. The <em>handle</em> will be used to refer to the template.</p>
+      <p>Example:</p>
+      <blockquote>
+        <p><i>$tpl = new DTemplate('path/to/template/files');<br />
+          $tpl-&gt;define_template('body', 'main.tpl');<br />
+        $tpl-&gt;define_template('footer', 'footer.tpl');</i></p>
+      </blockquote>
+      <p>Note: As with define_templates, define_template does not actually load the template files, so it is faster and more convenient to define all templates in one call to define_templates.</p>
+      <p>&nbsp;</p>
+      <p><b>clear_assign</b></p>
+      <p>Clears values assigned to fields through previous calls to assign.</p>
+      <p>clear_assign ([string fieldname])</p>
+      <p>If <em>fieldname</em> is omitted, all field values will be cleared, otherwise only the specified field will be cleared.</p>
+      <p>&nbsp;</p>
+      <p><strong>clear_output</strong></p>
+      <p>Clears template output created by previous calls to process.</p>
+      <p>clear_output ([string output_handle]) </p>
+      <p>if <em>output_handle</em> is omitted, all template output is cleared, otherwise only the specified output will be cleared.</p>
+      <p>&nbsp;</p>
+      <p><b>fetch</b></p>
+      <p>Returns the contents of the specified output handle.</p>
+      <p>fetch (string output_handle)</p>
+      <p>Examples:</p>
+      <blockquote>
+        <p><i>$results = $tpl-&gt;fetch('body');</i></p>
+        <p><i>$results = $tpl-&gt;fetch('body_output01');</i></p>
+      </blockquote>
+      <p>Note: this is useful for things like storing the processed output in a database or a file. Also, particularly useful in conjunction with CacheIT (<a href="http://www.boaddrink.com" target="_blank">http://www.boaddrink.com</a>)</p></td>
+  </tr>
+</table>
+<p><a name="dynamic" id="dynamic"></a>Dynamic Templates</p>
+<table width="90%" border="0" cellspacing="0" cellpadding="3">
+  <tr bgcolor="#EEEEEE">
+    <td><p>A dynamic template is a template containing a portion of code specified as dynamic which may be printed multiple times within the template, or removed completely.</p>
+      <p>An example would be a template file with a table in it where the row in the table is dynamic, meaning there could be a variable amount of rows printed.</p>
+      <p>In DTemplate sub-blocks are wrapped with pseudo-XML tags in the following format:</p>
+      <p>&lt;block:blockname&gt;<br />
+        <i>&nbsp;&nbsp;html goes here<br />
+      </i> &lt;/block:blockname&gt;</p>
+      <p>Note the spacing in the example. The block delimiters in the template have to match the format given in $BLOCK_START and $BLOCK_END.</p>
+      <p>There is only one extra method for working with sub-blocks: <i>define_block</i>. After the block is defined, it is processed just like the main template block.</p>
+      <p><b>define_block</b></p>
+      <p>Used to specify the name of a sub-block and the template, or block that it appears in (ie: its parent block).</p>
+      <p>define_block (string blockHandle, string parentHandle);</p>
+      <p><i>blockHandle</i> must match the name of the block handle in the template code.</p>
+      <p><em>parentHandle</em> is either the template handle (define_templates) for the template that contains the sub-block OR the <em>blockHandle</em> of a previously defined block (see: <a href="#nested_blocks">Nested Blocks</a>).</p>
+      <p>Example:</p>
+      <blockquote>
+        <p>$tpl-&gt;define_template('body', 'body.tpl');</p>
+        <p><i>$tpl-&gt;define_block('blockname', 'body');</i></p>
+      </blockquote>
+      <p>Note: in this example body.tpl must contain the code &lt;block:blockname&gt;&lt;/block:blockname&gt; or DTemplate will exit with an error.</p></td>
+  </tr>
+</table>
+<p><a name="nested_blocks" id="nested_blocks"></a>Nested  Blocks</p>
+<table width="90%" border="0" cellspacing="0" cellpadding="3">
+  <tr bgcolor="#EEEEEE">
+    <td><p>A nested sub-block is a block that appears inside another sub-block</p>
+      <p>Example body.tpl:</p>
+      <p>&lt;block:outerblock&gt;<br />
+&nbsp; &lt;block:nestedblock&gt;<br />
+        <em>&nbsp;&nbsp;some template code here</em><br />
+&nbsp;&nbsp;&lt;/block:nestedblock&gt;<br />
+&lt;/block:outerblock&gt;</p>
+      <p>There are two differences that you must keep in mind when using nested blocks. First, when defining nested blocks, the blocks must be defined from the outside, in. In other words, parent blocks must be defined first.</p>
+      <p>Secondly, in the call to define_block, the nested block must reference the block it is  contained within as its parent block.</p>
+      <p>Example:</p>
+      <blockquote>
+        <p><em>$tpl-&gt;define_template('body', 'body.tpl');<br />
+$tpl-&gt;define_block('outerblock', 'body');<br />
+$tpl-&gt;define_block('nestedblock', 'outerblock');&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// &lt;-- the second parameter must be the parent block's handle</em></p>
+    </blockquote></td>
+  </tr>
+</table>
+<p><a name="version_history" id="version_history"></a>Version History</p>
+<table width="90%" border="0" cellspacing="0" cellpadding="0">
+  <tr bgcolor="#EEEEEE">
+    <td><table border="0" cellspacing="0" cellpadding="5">
+        <tr>
+          <td>Version</td>
+          <td>Date</td>
+          <td>Changes</td>
+        </tr>
+        <tr>
+          <td valign="top">1.2</td>
+          <td valign="top" nowrap="nowrap">2004-11-28</td>
+          <td><p>! Major rewrite. Almost every function has been rewritten or changed in some way.<br />
+              !  DTemplate 1.2 is not released under the GNU General Public License, it's under the BSD license. <a href="http://www.opensource.org/licenses/bsd-license.php" target="_blank">http://www.opensource.org/licenses/bsd-license.php</a><br />
+            ! Moved copyright output to end of template output to fix a problem with IE when using XHTML in your top template block.<br />
+            ! Marginal speed increase over DTemplate 1.1.3 in most cases.<br />
+            + Sub block processing has been changed to allow empty block contents for any iteration without removing the block code completely (so it can still be used in later iterations).  This allows for some extra complexity when using nested blocks. (see example 4).</p>
+          </td>
+        </tr>
+        <tr>
+          <td valign="top">1.1.3</td>
+          <td valign="top" nowrap="nowrap">2004-01-21</td>
+          <td>! fixed a bug that caused a memory error in PHP when using a non-defined dynamic block tag</td>
+        </tr>
+        <tr>
+          <td valign="top">1.1.2</td>
+          <td valign="top" nowrap="nowrap">2002-12-02</td>
+          <td>= when using 1.1.1 with error_reporting(E_NOTICE) several problems would occur<br />
+            ! fixed code that would cause a notice about an undefined index when using dynamic blocks<br />
+            ! fixed examples' code that would cause notices about undefined constants<br />
+            ! changed example code in the documentation that would cause notices if used as actual code<br />
+            = code cleanup in examples<br />
+            = fixed spelling errors in documentation<br />
+          ! corrected parse documentation in the dynamic template section</td>
+        </tr>
+        <tr>
+          <td valign="top">1.1.1</td>
+          <td valign="top" nowrap="nowrap">2002-11-27</td>
+          <td><p>! fixed clear_dynamic, it will now remove the dynamic block completely<br />
+              = syntax changes for PEAR coding standards<br />
+              = general code cleanup<br />
+              + added copyright information to output<br />
+              + added dynamic block delimiter format variables</p></td>
+        </tr>
+        <tr>
+          <td valign="top">1.1</td>
+          <td valign="top">2002-10-18</td>
+          <td><p>! changed the function define to define_templates. define is an internal function in PHP<br />
+              ! parse_dynamic is now an internal function and should not be called from scripts using DTemplate, use parse instead<br />
+              ! parse no longer requires an output handle. Most of the time the output is only going to one place. And in the case of dynamic blocks <em>can only</em> go to one place.<br />
+              ! when using an output handle with parse, it is now the second argument<br />
+              ! when defining dynamic blocks, if the block is inside another block, it needs to reference the parent block in the second argument instead of the template<br />
+              + dramatic speed increases when dealing with dynamic blocks over version 1.0.1</p></td>
+        </tr>
+        <tr>
+          <td>1.0.1</td>
+          <td nowrap="nowrap">2002-02-19</td>
+          <td>! Fixed a bug in the fetch function.</td>
+        </tr>
+        <tr>
+          <td>1.0</td>
+          <td nowrap="nowrap"> 2001-11-30</td>
+          <td>Initial release.</td>
+        </tr>
+      </table></td>
+  </tr>
+</table>
+<p>&nbsp;</p>
+</body>
+</html>
