@@ -1,1 +1,1 @@
-see http://www.desolatewaste.com/projects/dtemplate/readme.htm
+DTemplate is a template engine written in PHP with functionality similar to FastTemplate. DTemplate allows you to separate your programing logic from your HTML output.
